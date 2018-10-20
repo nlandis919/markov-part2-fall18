@@ -19,8 +19,9 @@ public class MarkovDriver {
 			markov.resetRandom();
 			markov.setTraining(text);
 			String random = markov.getRandomText(TEXT_SIZE);
-			System.out.printf("%d markov model with %d chars\n", k,random.length());
+			System.out.printf("%d markov model with %d chars\n", k, random.length());
 			printNicely(random,60);
+			
 		}
 		double end = System.nanoTime();
 		System.out.printf("total time = %2.3f\n", (end-start)/1e9);
@@ -37,11 +38,15 @@ public class MarkovDriver {
 		
 		File f = new File(filename);
 		String text = TextSource.textFromFile(f);
-		MarkovInterface<String> standard = new BaseMarkov();
+		//MarkovInterface<String> standard = new BaseMarkov();
 		//MarkovInterface<String> efficient = new EfficientMarkov();
 		MarkovInterface<WordGram> wmm = new BaseWordMarkov();
-		//MarkovInterface<WordGram> ewm = new EfficientWordMarkov();
-		markovGenerate(standard,text);
+		MarkovInterface<WordGram> ewm = new EfficientWordMarkov();
+		//markovGenerate(efficient,text);
+		//markovGenerate(standard, text);
+		markovGenerate(wmm, text);
+		markovGenerate(ewm, text);
+		
 	}
 
 	private static void printNicely(String random, int screenWidth) {
